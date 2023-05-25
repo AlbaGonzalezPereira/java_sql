@@ -1,10 +1,48 @@
 ## **CONECTARSE A UNA BASE DE DATOS CON JAVA CON WINDOWS**
+Hoy en día, la mayoría de aplicaciones informáticas necesitan almacenar y gestionar gran cantidad de datos.
+
+Esos datos, se suelen guardar en **bases de datos relacionales**, ya que éstas son las más extendidas actualmente.
+
+Las bases de datos relacionales permiten organizar los datos en tablas y esas tablas y datos se relacionan mediante campos clave. Además se trabaja con el lenguaje estándar
+conocido como ``SQL``, para poder realizar las consultas que deseemos a la base de datos.
+
+El sistema gestor de bases de datos, en inglés conocido como **Database Management System** (DBMS), gestiona el
+modo en que los datos se almacenan, mantienen y recuperan.
+
+Java, mediante **JDBC** (Java Database Connectivity), permite simplificar el acceso a base de datos, proporcionando
+un lenguaje mediante el cual las aplicaciones pueden comunicarse con motores de bases de datos.
+
+JDBC es un **API Java** que hace posible ejecutar sentencias SQL.
 
 ### **JDBC Driver para SQL Server**
 
 Microsoft proporciona un controlador **Java Database Connectivity** (JDBC) para SQL Server, Azure SQL Database y Azure SQL Managed Instance.
 
 El controlador proporciona **conectividad de base de datos** de Java desde cualquier aplicación de Java, servidor de aplicaciones o applet habilitado para Java, mediante las interfaces de programación de aplicaciones (API) estándar JDBC.
+
+JDBC ofrece las clases e interfaces para:
+- Establecer una conexión a una base de datos.
+- Ejecutar una consulta.
+- Procesar los resultados
+
+**Ejemplo:**
+```java
+// Establece la conexión
+Connection con = DriverManager.getConnection (
+"jdbc:odbc:miBD", "miLogin", "miPassword");
+
+// Ejecuta la consulta
+Statement stmt = con.createStatement();
+ResultSet rs = stmt.executeQuery("SELECT nombre, edad FROM Jugadores");
+
+// Procesa los resultados
+while (rs.next()) {
+String nombre = rs.getString("nombre");
+int edad = rs.getInt("edad");
+}
+```
+
+
 
 #### **Introducción**
 * Paso 1: Configurar el entorno de desarrollo para el desarrollo de Java.
