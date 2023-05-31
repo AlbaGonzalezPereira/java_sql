@@ -60,6 +60,10 @@ int edad = rs.getInt("edad");
 * Crear la tabla alumno en la base de datos alumnos
 
 ```sql
+CREATE DATABASE alumnos;
+
+USE alumnos;
+
 CREATE TABLE alumno (
 
     id_alumno MEDIUMINT NOT NULL AUTO_INCREMENT,
