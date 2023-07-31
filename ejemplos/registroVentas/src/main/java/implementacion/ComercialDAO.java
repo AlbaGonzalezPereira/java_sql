@@ -63,7 +63,7 @@ public class ComercialDAO {
     /**
      * método que carga todos los comerciales
      *
-     * @return
+     * @return - devuelve un array de Comerciales
      * @throws SQLException
      * @throws ClassNotFoundException
      */
@@ -80,7 +80,7 @@ public class ComercialDAO {
                 comerciantes.add(co);
             }
         }
-        return comerciantes.toArray(new Comercial[10]);
+        return comerciantes.toArray(new Comercial[0]);
     }
 
     /**
@@ -104,7 +104,7 @@ public class ComercialDAO {
      * método que busca un comercial por id
      *
      * @param id
-     * @return
+     * @return - devuelve un comercial o null en caso de no encontrarlo
      * @throws SQLException
      * @throws ClassNotFoundException
      */

@@ -19,7 +19,7 @@ public class PedidoDAO {
     /**
      * método que inserta un pedido en la tabla pedido de base de datos ventas
      * @param pedido
-     * @return - número de elementos insertados
+     * @return - número de elementos insertados o -1 en caso de error
      * @throws ClassNotFoundException
      * @throws SQLException 
      */
@@ -39,9 +39,9 @@ public class PedidoDAO {
     }
 
     /**
-     * método que inserta un pedido sin fecha
+     * método que inserta un pedido sin incluir la fecha
      * @param pedido
-     * @return
+     * @return - número de pedidos insertados o -1 en caso de error
      * @throws ClassNotFoundException
      * @throws SQLException 
      */
@@ -61,7 +61,7 @@ public class PedidoDAO {
     /**
      * método que actualiza un pedido
      * @param pedido
-     * @return
+     * @return - número de pedidos actualizados, devuelve -1 en caso de error
      * @throws SQLException
      * @throws ClassNotFoundException 
      */
@@ -86,7 +86,7 @@ public class PedidoDAO {
    
     /**
      * método que devuelve todos los pedidos ordenados por id_cliente
-     * @return
+     * @return - devuelve un array con todos los pedidos ordenados por id del cliente
      * @throws Exception 
      */
     public static Pedido[] cargarPedido() throws Exception {
@@ -117,8 +117,8 @@ public class PedidoDAO {
 
     /**
      * método que selecciona un pedido según el id de un cliente dado
-     * @param idCli
-     * @return
+     * @param idCli - id del cliente
+     * @return - devuelve un ArrayList de Strings con la lista de pedidos según el id de un cliente
      * @throws ClassNotFoundException 
      */
     public static ArrayList<String> clientePedido(int idCli) throws ClassNotFoundException {
@@ -141,8 +141,8 @@ public class PedidoDAO {
 
     /**
      * método que elimina un pedido según un id dado
-     * @param id
-     * @return
+     * @param id - id del pedido
+     * @return - devuelve el número de eliminados o -1 en caso de error
      * @throws ClassNotFoundException 
      */
     public static int eliminarPedido(int id) throws ClassNotFoundException {
@@ -160,8 +160,8 @@ public class PedidoDAO {
 
     /**
      * método que busca un pedido según un id dado
-     * @param id
-     * @return
+     * @param id - id del pedido
+     * @return - devuelve un pedido o null si no lo encuentra
      * @throws SQLException
      * @throws ClassNotFoundException 
      */

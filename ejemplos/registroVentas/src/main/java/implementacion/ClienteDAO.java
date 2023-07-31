@@ -17,7 +17,7 @@ public class ClienteDAO {
     /**
      * método que nos permite insertar un cliente
      * @param cliente
-     * @return
+     * @return - devuelve el número de clientes insertados  o -1 en caso de error
      * @throws SQLException
      * @throws ClassNotFoundException 
      */
@@ -43,7 +43,7 @@ public class ClienteDAO {
     /**
      * método que nos permite actualizar un cliente
      * @param cliente
-     * @return
+     * @return - devuelve el número de clientes actualizados o -1 en caso de error
      * @throws SQLException
      * @throws ClassNotFoundException 
      */
@@ -66,7 +66,7 @@ public class ClienteDAO {
     
     /**
      * método que nos permite cargar todos los cliente que hay
-     * @return
+     * @return - devuelve un array de clientes 
      * @throws SQLException
      * @throws ClassNotFoundException 
      */
@@ -87,9 +87,9 @@ public class ClienteDAO {
     }
     
     /**
-     * método que nos permite eliminar un cliente
-     * @param id
-     * @return
+     * método que nos permite eliminar un cliente según su id
+     * @param id - id del cliente
+     * @return - devuelve el número de clientes eliminados
      * @throws SQLException
      * @throws ClassNotFoundException 
      */
@@ -104,8 +104,8 @@ public class ClienteDAO {
 
     /**
      * método que busca un cliente por su id
-     * @param id
-     * @return
+     * @param id - id del cliente
+     * @return - devuelve el Cliente a buscar o null en caso de no encontrarlo
      * @throws SQLException
      * @throws ClassNotFoundException 
      */
