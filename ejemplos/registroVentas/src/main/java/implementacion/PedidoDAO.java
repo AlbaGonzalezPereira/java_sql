@@ -140,6 +140,29 @@ public class PedidoDAO {
     } 
 
     /**
+     * método que devuelve los pedidos de un comercial
+     * @param idCom - id del comercial
+     * @return - arraylist de pedidos
+     * @throws ClassNotFoundException 
+     */
+    public static ArrayList<String> comercialPedido(int idCom) throws ClassNotFoundException {
+        String sql = "SELECT total,fecha,id_cliente FROM pedido WHERE id_comercial=?;";
+        ArrayList<String> lista = new ArrayList<>(); //Declaramos lista a devolver
+        try ( Connection con = DB.getConnection();  PreparedStatement stmt = con.prepareStatement(sql);) {
+            stmt.setInt(1, idCom);
+            try ( ResultSet rs = stmt.executeQuery();) {
+                while (rs.next()) {
+                    lista.add(rs.getDouble(1) + " " + rs.getDate(2).toLocalDate()
+                            + " " + rs.getInt(3));
+                }
+            }
+        } catch (SQLException ex) {
+            return null;
+        }
+        return lista;
+    } 
+
+    /**
      * método que elimina un pedido según un id dado
      * @param id - id del pedido
      * @return - devuelve el número de eliminados o -1 en caso de error

@@ -1,31 +1,28 @@
 package principal;
 
-/**
- *
- * @author alba_
- */
 import DB.DB;
 import implementacion.Cliente;
 import implementacion.ClienteDAO;
 import implementacion.Comercial;
 import implementacion.ComercialDAO;
 import implementacion.Pedido;
+import implementacion.PedidoDAO;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Scanner;
-import implementacion.PedidoDAO;
 
 /**
  *
- * @author Vanesa
+ * @author alba_
  */
 public class PrincipalMenu {
 
     static Scanner sc = new Scanner(System.in);
+    static int opcion;
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException, Exception {
-
         try ( DB db = DB.open()) {//abrimos la conexión         
             crearMenu();
         } catch (SQLException e) {
@@ -34,7 +31,7 @@ public class PrincipalMenu {
     }
 
     private static void crearMenu() throws ClassNotFoundException, ParseException, Exception {
-        int opcion;
+//        int opcion;
         do {
             System.out.println("***** Menú principal ***** \n"
                     + "1. Gestionar cliente \n"
@@ -68,8 +65,7 @@ public class PrincipalMenu {
     }
 
     private static void crearMenuCliente() throws Exception {
-        int opcion;
-        do {
+        while (true) {
             System.out.println("***** Menú gestión cliente ***** \n"
                     + "1. Insertar cliente \n"
                     + "2. Actualizar cliente \n"
@@ -92,18 +88,16 @@ public class PrincipalMenu {
                     eliminarCliente();
                     break;
                 case 5:
-                    crearMenu();
-                    break; //(salir) 
+                    return; // Regresar al menú principal
                 default:
                     System.out.println("Opción inválida");
                     break;
             }
-        } while (opcion > 5);
+        }
     }
 
     private static void crearMenuComercial() throws Exception {
-        int opcion;
-        do {
+        while (true) {
             System.out.println("***** Menú gestión comercial ***** \n"
                     + "1. Insertar comercial \n"
                     + "2. Actualizar comercial \n"
@@ -126,25 +120,24 @@ public class PrincipalMenu {
                     eliminarComercial();
                     break;
                 case 5:
-                    crearMenu();
-                    break; //salir
+                    return; // Regresar al menú principal
                 default:
                     System.out.println("Opción inválida");
                     break;
             }
-        } while (opcion > 5);
-
+        }
     }
 
     private static void crearMenuPedido() throws SQLException, ParseException, ClassNotFoundException, Exception {
-        int opcion;
-        do {
+        while (true) {
             System.out.println("***** Menú gestión pedido ***** \n"
                     + "1. Insertar pedido \n"
                     + "2. Actualizar pedido \n"
-                    + "3. Listar todos los pedidos \n"
-                    + "4. Eliminar cpedido \n"
-                    + "5. Salir \n"
+                    + "3. Eliminar pedido \n"
+                    + "4. Listar todos los pedidos \n"
+                    + "5. Listar todos los pedidos de un cliente \n"
+                    + "6. Listar todos los pedidos de un comercial \n"
+                    + "7. Salir \n"
                     + "Elige una opción: ");
             opcion = Integer.parseInt(sc.nextLine());
             switch (opcion) {
@@ -155,19 +148,24 @@ public class PrincipalMenu {
                     updatePedido();
                     break;
                 case 3:
-                    cargarPedido();
-                    break;
-                case 4:
                     eliminarPedido();
                     break;
+                case 4:
+                    cargarPedido();
+                    break;
                 case 5:
-                    crearMenu();
-                    break;//salir
+                    clientePedido();
+                    break;
+                case 6:
+                    comercialPedido();
+                    break;
+                case 7:
+                    return; // Regresar al menú principal
                 default:
                     System.out.println("Opción inválida");
-                    break;//salir
+                    break;
             }
-        } while (opcion > 5);
+        }
     }
 
     private static void insertarCliente() {
@@ -364,6 +362,25 @@ public class PrincipalMenu {
         System.out.print("ID_Comercial: ");
         int id_comercial = Integer.parseInt(sc.nextLine());
 
+        // Verificar si el cliente y el comercial existen en la base de datos
+        Cliente clienteExistente = ClienteDAO.buscarCliente(id_cliente);
+        Comercial comercialExistente = ComercialDAO.buscarComercial(id_comercial);
+
+        if (clienteExistente == null) {
+            if (comercialExistente == null) {
+                System.out.println("El comercial con ID " + id_comercial + " no existe. No se puede agregar el pedido.");
+                System.out.println("El cliente con ID " + id_cliente + " no existe. No se puede agregar el pedido.");
+            } else {
+                System.out.println("El cliente con ID " + id_cliente + " no existe. No se puede agregar el pedido.");
+            }
+            return;
+        }
+
+        if (comercialExistente == null) {
+            System.out.println("El comercial con ID " + id_comercial + " no existe. No se puede agregar el pedido.");
+            return;
+        }
+        // Si los clientes y comerciales existen, entonces se puede agregar el pedido
         Pedido nuevoPedido = new Pedido(total, id_cliente, id_comercial);
 
         try {
@@ -442,6 +459,44 @@ public class PrincipalMenu {
             System.out.println("Pedido eliminado correctamente.");
         } else {
             System.out.println("Error al eliminar el pedido. Pedido no encontrado");
+        }
+    }
+
+    private static void clientePedido() throws ClassNotFoundException, SQLException {
+        System.out.println("Ingrese el ID del cliente: ");
+        int id = Integer.parseInt(sc.nextLine());
+        Cliente clienteExistente = ClienteDAO.buscarCliente(id);
+        if (clienteExistente == null) {
+            System.out.println("Cliente no encontrado.");
+        } else {
+            try {
+                System.out.println("Listando todos los pedidos del cliente con id " + id);
+                ArrayList<String> pedido = PedidoDAO.clientePedido(id);
+                for (String pedidos : pedido) {
+                    System.out.println(pedidos);
+                }
+            } catch (ClassNotFoundException e) {
+                System.out.println("Error al conectar con la base de datos: " + e.getMessage());
+            }
+        }
+    }
+
+    private static void comercialPedido() throws SQLException, ClassNotFoundException {
+        System.out.println("Ingrese el ID del comercial: ");
+        int id = Integer.parseInt(sc.nextLine());
+        Comercial comercialExistente = ComercialDAO.buscarComercial(id);
+        if (comercialExistente == null) {
+            System.out.println("Comercial no encontrado.");
+        } else {
+            try {
+                System.out.println("Listando todos los pedidos del comercial con ID " + id);
+                ArrayList<String> pedido = PedidoDAO.comercialPedido(id);
+                for (String pedidos : pedido) {
+                    System.out.println(pedidos);
+                }
+            } catch (ClassNotFoundException e) {
+                System.out.println("Error al conectar con la base de datos: " + e.getMessage());
+            }
         }
     }
 
