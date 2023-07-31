@@ -228,7 +228,7 @@ public class Principal {
                 System.out.println("Nuevo apellido2: ");
                 String apellido2 = sc.nextLine();
                 System.out.println("Nuevo comisión: ");
-                float comision = Integer.parseInt(sc.nextLine());
+                float comision = Float.parseFloat(sc.nextLine());
 
                 Comercial comercialActualizado = new Comercial(id, nombre, apellido1, apellido2, comision);
 
