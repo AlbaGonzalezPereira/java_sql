@@ -276,7 +276,7 @@ public class Principal {
     private static void insertarPedido() throws ParseException, SQLException, ClassNotFoundException {
         System.out.println("Insertando pedido...");
         System.out.print("Total: ");
-        double total = Integer.parseInt(sc.nextLine());
+        double total = Double.parseDouble(sc.nextLine());
         System.out.print("Fecha: ");
         LocalDate fecha = LocalDate.parse(sc.nextLine());
         System.out.print("ID_Cliente: ");

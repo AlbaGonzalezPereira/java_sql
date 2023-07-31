@@ -173,7 +173,9 @@ public class PedidoDAO {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 int total = rs.getInt("total");
-                LocalDate fecha = (LocalDate) rs.getObject("fecha");
+                java.sql.Date fechaSQL = rs.getDate("fecha");
+                LocalDate fecha = fechaSQL.toLocalDate();
+                //LocalDate fecha = (LocalDate) rs.getObject("fecha");
                 int id_cliente = rs.getInt("id_cliente");
                 int id_comercial = rs.getInt("id_comercial");
                 return new Pedido(id, total, fecha, id_cliente, id_comercial);
