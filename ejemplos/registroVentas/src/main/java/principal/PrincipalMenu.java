@@ -47,12 +47,15 @@ public class PrincipalMenu {
             switch (opcion) {
                 case 1:
                     crearMenuCliente();
+                    break;
 
                 case 2:
                     crearMenuComercial();
+                    break;
 
                 case 3:
                     crearMenuPedido();
+                    break;
 
                 case 4:
                     break; //salir
